@@ -1,0 +1,11 @@
+App\Entity\Restaurante:
+    attributes:
+        id:
+            groups: ['restaurantes_list', 'inventada']
+        descripcion:
+            groups: ['restaurantes_list']
+        destacado:
+            groups: ['restaurantes_list']
+
+
+

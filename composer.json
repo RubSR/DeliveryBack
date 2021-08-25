@@ -7,14 +7,21 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "^1.13",
+        "friendsofsymfony/rest-bundle": "^3.0",
+        "sensio/framework-extra-bundle": "^6.1",
         "symfony/console": "5.3.*",
         "symfony/dotenv": "5.3.*",
         "symfony/flex": "^1.3.1",
+        "symfony/form": "5.3.*",
         "symfony/framework-bundle": "5.3.*",
+        "symfony/monolog-bundle": "^3.7",
+        "symfony/orm-pack": "^2.1",
         "symfony/runtime": "5.3.*",
+        "symfony/serializer": "5.3.*",
+        "symfony/twig-pack": "^1.0",
+        "symfony/validator": "5.3.*",
         "symfony/yaml": "5.3.*"
-    },
-    "require-dev": {
     },
     "config": {
         "optimize-autoloader": true,
@@ -58,5 +65,8 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.33"
     }
 }
