@@ -4,10 +4,13 @@
 namespace App\Controller\Api;
 
 
+
+use App\Form\Type\RestauranteFormType;
 use App\Repository\RestauranteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
+
 use FOS\RestBundle\Controller\Annotations as Rest;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,14 +36,68 @@ class RestauranteController extends AbstractApiController
             $restaurantes = $this->restauranteRepository->findAll();
 
             if(!$restaurantes){
-                $this->respond(Response::HTTP_NOT_FOUND);
+                return new Response('Not found', Response::HTTP_NOT_FOUND );
             }
 
             return $restaurantes;
-
-
     }
 
+    /**
+     * @Rest\Get  (path="/restaurante/{id}")
+     * @Rest\View ( serializerGroups={"restaurante"}, serializerEnableMaxDepthChecks= true )
+     */
+
+    public function restauranteById(Request $request){
+        $id  = $request->get('id');
+
+        $restaurante = $this->restauranteRepository->find($id);
+        if(!$restaurante){
+            return new Response('Not found', Response::HTTP_NOT_FOUND );
+        }
+
+        return $restaurante;
+    }
+
+
+    /**
+     * @Rest\Post (path="/restaurante/create")
+     * @Rest\View ( serializerGroups={"restaurantes_list"}, serializerEnableMaxDepthChecks= true)
+     */
+
+    public function restaurantesCreate( Request $request){
+
+        $form = $this->buildForm(RestauranteFormType::class);
+        $form->handleRequest($request);
+         if(!$form->isSubmitted() || !$form->isValid()){
+             return $this->respond($form, Response::HTTP_BAD_REQUEST);
+         }
+
+        $restaurante = $form->getData();
+
+        $this->em->persist($restaurante);
+        $this->em->flush();
+
+        return $restaurante;
+    }
+
+    /**
+     * @Rest\Post   (path="/restaurantes/filtered")
+     * @Rest\View ( serializerGroups={"restaurante"}, serializerEnableMaxDepthChecks= true )
+     */
+
+    public function restauranteBy(Request $request){
+        $dia = $request->get('dia');
+        $hora = $request->get('hora');
+
+
+        $restaurantes = $this->restauranteRepository->findByDayAndTime($dia, $hora);
+
+        if(!$restaurantes){
+            return new Response('Not found', Response::HTTP_NOT_FOUND );
+        }
+
+        return $restaurantes;
+    }
 
 
 

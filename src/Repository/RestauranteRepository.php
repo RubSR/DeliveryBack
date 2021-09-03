@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Restaurante;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,22 +21,26 @@ class RestauranteRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurante::class);
     }
 
-    // /**
-    //  * @return Restaurante[] Returns an array of Restaurante objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Restaurante[] Returns an array of Restaurante objects */
+
+    public function findByDayAndTime($dia, $hora)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('r.horarios', 'h'  )
+            ->where('h.dia = :val')
+            ->andWhere('h.apertura <= :hora')
+            ->andWhere('h.cierre >= :hora')
+            ->setParameters(new ArrayCollection(array(
+                new Parameter('val', $dia),
+                new Parameter('hora', $hora)
+            )))
             ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Restaurante

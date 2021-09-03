@@ -1,0 +1,8 @@
+App\Entity\Restaurante:
+  properties:
+    nombre:
+      - NotBlank:
+          message: 'Debe indicar un nombre de categoria'
+      - Length:
+          max: 100
+          maxMessage: 'El nombre de la categoria es demasido largo'

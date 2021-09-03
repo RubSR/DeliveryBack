@@ -1,0 +1,4 @@
+App\Entity\HorarioRestaurante:
+  properties:
+    dia:
+

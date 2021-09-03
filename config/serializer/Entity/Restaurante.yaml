@@ -1,11 +1,23 @@
 App\Entity\Restaurante:
     attributes:
         id:
-            groups: ['restaurantes_list', 'inventada']
+            groups: ['restaurantes_list', 'inventada', 'restaurante', 'horario']
         descripcion:
-            groups: ['restaurantes_list']
+            groups: ['restaurantes_list', 'restaurante']
         destacado:
-            groups: ['restaurantes_list']
+            groups: ['restaurantes_list', 'restaurante']
+        categorias:
+            groups: ['restaurantes_list', 'restaurante']
+        nombre:
+            groups: ['restaurantes_list', 'restaurante', 'horario']
+        logoUrl:
+            groups: ['restaurantes_list', 'restaurante']
+        valoracionMedia:
+            groups: ['restaurantes_list', 'restaurante']
+        municipiosReparto:
+            groups: ['restaurantes_list', 'restaurante']
+
+
 
 
 

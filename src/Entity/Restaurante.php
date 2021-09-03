@@ -42,12 +42,12 @@ class Restaurante
     private $descripcion;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $destacado;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $valoracionMedia;
 
@@ -61,11 +61,7 @@ class Restaurante
      */
     private $categorias;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=HorarioRestaurante::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $horario;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Comentario::class, mappedBy="restaurante", orphanRemoval=true)
@@ -77,12 +73,18 @@ class Restaurante
      */
     private $platos;
 
+    /**
+     * @ORM\OneToMany(targetEntity=HorarioRestaurante::class, mappedBy="restaurante")
+     */
+    private $horarios;
+
     public function __construct()
     {
         $this->municipiosReparto = new ArrayCollection();
         $this->categorias = new ArrayCollection();
         $this->comentarios = new ArrayCollection();
         $this->platos = new ArrayCollection();
+        $this->horarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,17 +212,7 @@ class Restaurante
         return $this;
     }
 
-    public function getHorario(): ?HorarioRestaurante
-    {
-        return $this->horario;
-    }
 
-    public function setHorario(?HorarioRestaurante $horario): self
-    {
-        $this->horario = $horario;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Comentario[]
@@ -276,6 +268,36 @@ class Restaurante
             // set the owning side to null (unless already changed)
             if ($plato->getRestaurante() === $this) {
                 $plato->setRestaurante(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HorarioRestaurante[]
+     */
+    public function getHorarios(): Collection
+    {
+        return $this->horarios;
+    }
+
+    public function addHorario(HorarioRestaurante $horario): self
+    {
+        if (!$this->horarios->contains($horario)) {
+            $this->horarios[] = $horario;
+            $horario->setRestaurante($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHorario(HorarioRestaurante $horario): self
+    {
+        if ($this->horarios->removeElement($horario)) {
+            // set the owning side to null (unless already changed)
+            if ($horario->getRestaurante() === $this) {
+                $horario->setRestaurante(null);
             }
         }
 
