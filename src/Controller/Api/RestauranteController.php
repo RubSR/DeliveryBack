@@ -88,9 +88,11 @@ class RestauranteController extends AbstractApiController
     public function restauranteBy(Request $request){
         $dia = $request->get('dia');
         $hora = $request->get('hora');
+        $idMunicipio = $request->get('municipio');
 
 
-        $restaurantes = $this->restauranteRepository->findByDayAndTime($dia, $hora);
+
+        $restaurantes = $this->restauranteRepository->findByDayAndTime($dia, $hora, $idMunicipio);
 
         if(!$restaurantes){
             return new Response('Not found', Response::HTTP_NOT_FOUND );

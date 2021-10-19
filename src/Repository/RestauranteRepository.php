@@ -24,14 +24,17 @@ class RestauranteRepository extends ServiceEntityRepository
      /**
       * @return Restaurante[] Returns an array of Restaurante objects */
 
-    public function findByDayAndTime($dia, $hora)
+    public function findByDayAndTime($dia, $hora, $idMunicipio)
     {
         return $this->createQueryBuilder('r')
             ->join('r.horarios', 'h'  )
-            ->where('h.dia = :val')
+            ->join('r.municipiosReparto', 'm')
+            ->where('m.id = :idMunicipio')
+            ->andwhere('h.dia = :val')
             ->andWhere('h.apertura <= :hora')
             ->andWhere('h.cierre >= :hora')
             ->setParameters(new ArrayCollection(array(
+                new Parameter('idMunicipio', $idMunicipio),
                 new Parameter('val', $dia),
                 new Parameter('hora', $hora)
             )))
